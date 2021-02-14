@@ -1,0 +1,253 @@
+:root {
+    /* Palette */
+    --Dark: #383d47;
+    --Gray: #6b6f75;
+
+    /* NoteLock brand colours: */
+    --NL-Blue: #34c7aa;
+    --NL-Green: #86f493;
+
+    --NL-Gradient: #000000;
+    --NL-Gradient-Reverse: #000000;
+    --Gradient-btn: #000000;
+
+    --navbar-logo-size: 300px;
+    --h1-size: 50px;
+    --h2-size: 35px;
+    --p-size: 15px;
+
+    --h2-color: var(--Dark);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+}
+
+@media only screen and (min-width: 1100px){
+    .navbar-expand-custom {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+    .navbar-expand-custom .navbar-nav {
+        flex-direction: row;
+    }
+    .navbar-expand-custom .navbar-nav .nav-link {
+        padding-right: .5rem;
+        padding-left: .5rem;
+    }
+    .navbar-expand-custom .navbar-collapse {
+        display: flex !important;
+    }
+    .navbar-expand-custom .navbar-toggler {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1099.99px){
+    .nav-brand {
+      margin-left: 0px !important;
+    }
+}
+
+.nav-brand {
+    width: var(--navbar-logo-size);
+    transition: 0.75s ease;
+}
+
+.semi-bold {
+    font-weight: 600;
+}
+
+.bg-white {
+    margin-top: 20px;
+    box-shadow: none;
+    -webkit-transition: 0.75s ease;
+    -moz-transition: 0.75s ease;
+    -ms-transition: 0.75s ease;
+    -o-transition: 0.75s ease;
+    transition: 0.75s ease;
+}
+
+.bg-white.scrolled {
+    margin-top: 0px;
+    box-shadow: 0px 7px 53px -21px rgba(0,0,0,0.15);
+    --navbar-logo-size: 200px;
+}
+
+.btn {
+    font-weight: 600;
+    outline: none;
+
+    background-size: 300% 100%;
+    -webkit-transition: all 1.7s ease;
+    -moz-transition: all 1.7s ease;
+    -ms-transition: all 1.7s ease;
+    -o-transition: all 1.7s ease;
+    transition: all 1.7s ease;
+}
+
+.btn:hover {
+    background-position: 100% 0;
+
+    -webkit-transition: all 1.7s ease;
+    -moz-transition: all 1.7s ease;
+    -ms-transition: all 1.7s ease;
+    -o-transition: all 1.7s ease;
+    transition: all 1.7s ease;
+}
+
+.btn-main {
+    border-radius: 8px;
+    background: var(--Gradient-btn);
+    color: white;
+    box-shadow: 0 13px 17px -10px rgba(52, 201, 106, .3);
+}
+
+.btn-footer {
+    box-shadow: none !important;
+}
+
+.btn-main:hover {
+    color: white;
+}
+
+.btn-header {
+    box-shadow: 0 13px 17px -10px rgba(52, 201, 106, 0.65);
+}
+
+b {
+  font-weight: 600;
+}
+
+h1 {
+    font-size: var(--h1-size);
+    font-weight: 700;
+    color: var(--Dark);
+}
+
+h2 {
+    font-size: var(--h2-size);
+    font-weight: 600;
+    color: var(--h2-color);
+}
+
+h3 {
+    font-weight: 600;
+}
+
+p {
+    font-size: var(--p-size);
+    color: var(--Gray);
+}
+
+.floating-overlay {
+    width: 600px;
+    position: absolute;
+    top: 60px;
+    left: 35px;
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+
+	50% {
+		transform: translatey(-20px);
+	}
+
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+.img-float {
+    overflow: hidden;
+    transform: translatey(0px);
+    img { width: 100%; height: auto; }
+}
+
+.img-float-1 {
+	 animation: float 12s ease-in-out infinite;
+}
+
+.img-float-2 {
+	  animation: float 8s ease-in-out infinite;
+}
+
+.img-float-3 {
+	  animation: float 5s ease-in-out infinite;
+}
+
+.bg-white.scrolled {
+    margin-top: 0px;
+    box-shadow: 0px 7px 53px -21px rgba(0,0,0,0.15);
+    --navbar-logo-size: 200px;
+}
+
+/* footer */
+
+.footer {
+    background-color: var(--Dark);
+    --Gray: #bcc0ce;
+    --h2-color: var(--Gray);
+}
+
+.footer-logo {
+    width: 200px;
+}
+
+.form-control {
+    width: 80%;
+}
+
+.fa {
+    color: white;
+}
+
+.img-feature {
+    height: 200px;
+}
+
+/* MAKING DESIGN RESPONSIVE */
+
+/* Laptop screen size */
+@media only screen and (min-width: 1100px) {
+    .medium-screen, .small-screen {
+      display: none;
+    }
+}
+
+/* Tablet screen size: */
+@media only screen and (min-width:600px) and (max-width: 1099.99px) {
+    .small-screen, .large-screen {
+      display: none;
+    }
+}
+
+/* Phone screen size: */
+@media only screen and (max-width: 599.99px) {
+    .medium-screen, .large-screen {
+      display: none;
+    }
+    body {
+        --h1-size: 35px;
+        --p-size: 15px;
+        --navbar-logo-size: 250px;
+    }
+
+    h1, h2, h3, a, p, .footer-logo {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .nav-link {
+      margin-left: 5px;
+    }
+}
