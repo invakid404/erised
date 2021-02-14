@@ -33,7 +33,7 @@ jobs:
         
         install: |
           apt update -q -y
-          apt install -q -y qt5-default
+          apt install -q -y cmake qt5-default
           
         run: |
           cmake -E make_directory ${{github.workspace}}/build
