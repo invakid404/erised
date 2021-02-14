@@ -28,7 +28,10 @@ jobs:
         
         dockerRunArgs: |
           --volume "${PWD}/artifacts:/artifacts"
-           
+       
+        env: |
+          BUILD_TYPE: Release
+       
         shell: /bin/bash
         
         install: |
