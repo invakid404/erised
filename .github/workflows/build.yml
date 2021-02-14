@@ -44,7 +44,11 @@ jobs:
           cmake --build . --config $BUILD_TYPE
           ctest -C $BUILD_TYPE
           cp erised /artifacts/erised
-    - name: Show the artifact
-      run: |
-        ls -la "${PWD}/artifacts"
-          
+    - name: Upload the Artifacts
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        # Artifact name
+        name: erised
+        # A file, directory or wildcard pattern that describes what to upload
+        path: /artifacts/*
+
