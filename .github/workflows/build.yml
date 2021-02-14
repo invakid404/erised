@@ -43,5 +43,8 @@ jobs:
           cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
           cmake --build . --config $BUILD_TYPE
           ctest -C $BUILD_TYPE
-          ls -la
+          cp erised /artifacts/erised
+    - name: Show the artifact
+      run: |
+        ls -la "${PWD}/artifacts"
           
