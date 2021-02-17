@@ -1,10 +1,11 @@
 #include <QApplication>
-#include <QPushButton>
+#include "widget/widget.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    QPushButton button("Hello world!", nullptr);
-    button.resize(200, 100);
-    button.show();
+
+    auto w = erised::instantiate_widget_from_dynamic_lib("libqt_shared_lib_test");
+    w->show();
+
     return QApplication::exec();
 }
