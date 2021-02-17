@@ -10,6 +10,12 @@
 namespace erised {
     typedef QWidget *(*create_widget_func)();
 
+    /*
+     * Returns an instance of a widget, implemented in a dynamic/shared library.
+     * Return value is nullptr if an error occurs.
+     * The `library_name` mustn't contain an extension.
+     * The `library_name` must either represent a file in LD_PRELOAD_PATH (on Unix) or be an absolute path.
+     */
     auto instantiate_widget_from_dynamic_lib(const QString &library_name) -> QWidget * {
         QLibrary library(library_name);
         if (!library.load()) {
