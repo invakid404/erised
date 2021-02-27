@@ -7,7 +7,7 @@
 
 #include <QtWidgets>
 
-namespace erised {
+namespace erised::widget {
     typedef QWidget *(*create_widget_func)();
 
     /*
@@ -16,7 +16,7 @@ namespace erised {
      * The `library_name` mustn't contain an extension.
      * The `library_name` must either represent a file in LD_PRELOAD_PATH (on Unix) or be an absolute path.
      */
-    auto instantiate_widget_from_dynamic_lib(const QString &library_name) -> QWidget * {
+    auto instantiate_from_dynamic_lib(const QString &library_name) -> QWidget * {
         QLibrary library(library_name);
         if (!library.load()) {
             qDebug() << library.errorString();
