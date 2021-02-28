@@ -1,10 +1,17 @@
 #include <QApplication>
-#include <QPushButton>
+#include "widget/widget.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    QPushButton button("Hello world!", nullptr);
-    button.resize(200, 100);
-    button.show();
+
+    QMainWindow main_window;
+    main_window.showFullScreen();
+
+    auto widgets = erised::widget::load_all_in_directory(QDir("."));
+    for (auto &widget : widgets) {
+        widget->setParent(&main_window);
+        widget->show();
+    }
+
     return QApplication::exec();
 }
