@@ -7,9 +7,11 @@ int main(int argc, char *argv[]) {
     QMainWindow main_window;
     main_window.showFullScreen();
 
-    auto w = erised::widget::instantiate_from_dynamic_lib("./libqt_shared_lib_test");
-    w->setParent(&main_window);
-    w->show();
+    auto widgets = erised::widget::load_all_in_directory(QDir("."));
+    for (auto& widget : widgets) {
+        widget->setParent(&main_window);
+        widget->show();
+    }
 
     return QApplication::exec();
 }

@@ -16,7 +16,7 @@ namespace erised::widget {
      * The `library_name` mustn't contain an extension.
      * The `library_name` must either represent a filename in LD_PRELOAD_PATH (on Unix) or be a path.
      */
-    auto instantiate_from_dynamic_lib(const QString &library_name) -> QWidget * {
+    auto instantiate_from_dynamic_lib(QString const &library_name) -> QWidget * {
         QLibrary library(library_name);
         if (!library.load()) {
             qDebug() << library.errorString();
@@ -30,6 +30,24 @@ namespace erised::widget {
         }
 
         return create_func();
+    }
+
+    auto load_all_in_directory(QDir const &directory) {
+        auto res = QList<QWidget*>();
+
+        auto shared_libs = directory.entryInfoList(QStringList() << "*.so", QDir::Files);
+        for (auto &file_info : shared_libs) {
+            auto file_path = file_info.filePath();
+
+            auto instance = instantiate_from_dynamic_lib(file_path);
+            if (!instance) {
+                continue;
+            }
+
+            res << instance;
+        }
+
+        return res;
     }
 }
 
