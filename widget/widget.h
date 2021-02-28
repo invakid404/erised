@@ -36,7 +36,7 @@ namespace erised::widget {
      * Returns a list of widgets, implemented in dynamic/shared libraries in the specified `directory`.
      */
     auto load_all_in_directory(QDir const &directory) {
-        auto res = QList<QWidget*>();
+        auto res = QList<QWidget *>();
 
         auto shared_libs = directory.entryInfoList(QDir::Files);
         for (auto &file_info : shared_libs) {
