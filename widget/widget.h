@@ -16,7 +16,7 @@ typedef QWidget *(*create_widget_func)();
  * The `library_name` mustn't contain an extension.
  * The `library_name` must either represent a filename in LD_PRELOAD_PATH (on Unix) or be a path.
  */
-auto instantiate_from_dynamic_lib(QString const &library_name) -> QWidget * {
+inline auto instantiate_from_dynamic_lib(QString const &library_name) -> QWidget * {
     QLibrary library(library_name);
     if (!library.load()) {
         qDebug() << library.errorString();
@@ -35,7 +35,7 @@ auto instantiate_from_dynamic_lib(QString const &library_name) -> QWidget * {
 /*
  * Returns a list of widgets, implemented in dynamic/shared libraries in the specified `directory`.
  */
-auto load_all_in_directory(QDir const &directory) {
+inline auto load_all_in_directory(QDir const &directory) {
     auto res = QList<QWidget *>();
 
     auto shared_libs = directory.entryInfoList(QDir::Files);
