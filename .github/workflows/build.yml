@@ -36,7 +36,7 @@ jobs:
 
           install: |
             apt update -q -y
-            apt install -q -y build-essential cmake qt5-default
+            apt install -q -y build-essential cmake qt5-default libqt5websockets-dev
 
           run: |
             cmake -E make_directory ${{github.workspace}}/build
