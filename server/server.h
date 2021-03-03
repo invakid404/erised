@@ -14,21 +14,19 @@ QT_FORWARD_DECLARE_CLASS(QWebSocketServer)
 
 QT_FORWARD_DECLARE_CLASS(QWebSocket)
 
-namespace erised {
-class server : public QObject {
+namespace erised::server {
+class server_t : public QObject {
     Q_OBJECT
 public:
-    explicit server(quint16 port, bool debug = false,
-                    QObject *parent = nullptr);
+    explicit server_t(quint16 port, bool debug = false, QObject *parent = nullptr);
 
-    ~server() override;
+    ~server_t() override;
 Q_SIGNALS:
     void closed();
 
 private Q_SLOTS:
     void on_new_connection();
     void process_text_message(QString const &);
-    void process_binary_message(QByteArray const &);
     void socket_disconnected();
 
 private:
@@ -37,6 +35,6 @@ private:
 
     bool debug;
 };
-}  // namespace erised
+}  // namespace erised::server
 
 #endif  // ERISED_SERVER_H

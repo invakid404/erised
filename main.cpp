@@ -7,8 +7,8 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // Start web socket server
-    auto server = new erised::server(1337, true, &a);
-    QObject::connect(server, &erised::server::closed, &a, &QApplication::quit);
+    auto server = new erised::server::server_t(1337, true, &a);
+    QObject::connect(server, &erised::server::server_t::closed, &a, &QApplication::quit);
 
     // Create main window
     QMainWindow main_window;

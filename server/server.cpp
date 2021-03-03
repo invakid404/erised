@@ -7,9 +7,11 @@
 #include <QWebSocket>
 #include <QWebSocketServer>
 
+#include "handler.h"
+
 QT_USE_NAMESPACE
 
-erised::server::server(quint16 port, bool debug, QObject* parent)
+erised::server::server_t::server_t(quint16 port, bool debug, QObject* parent)
     : QObject(parent),
       web_socket_server(new QWebSocketServer(QStringLiteral("Erised"), QWebSocketServer::NonSecureMode, this)),
       debug(debug) {
@@ -18,12 +20,12 @@ erised::server::server(quint16 port, bool debug, QObject* parent)
             qDebug() << "Server listening on port" << port;
         }
 
-        connect(this->web_socket_server, &QWebSocketServer::newConnection, this, &server::on_new_connection);
-        connect(this->web_socket_server, &QWebSocketServer::closed, this, &server::closed);
+        connect(this->web_socket_server, &QWebSocketServer::newConnection, this, &server_t::on_new_connection);
+        connect(this->web_socket_server, &QWebSocketServer::closed, this, &server_t::closed);
     }
 }
 
-erised::server::~server() {
+erised::server::server_t::~server_t() {
     if (this->debug) {
         qDebug() << "Server shutting down";
     }
@@ -33,39 +35,28 @@ erised::server::~server() {
     qDeleteAll(this->clients.begin(), this->clients.end());
 }
 
-void erised::server::on_new_connection() {
+void erised::server::server_t::on_new_connection() {
     auto* socket = this->web_socket_server->nextPendingConnection();
 
-    connect(socket, &QWebSocket::textMessageReceived, this, &server::process_text_message);
-    connect(socket, &QWebSocket::binaryMessageReceived, this, &server::process_binary_message);
-    connect(socket, &QWebSocket::disconnected, this, &server::socket_disconnected);
+    connect(socket, &QWebSocket::textMessageReceived, this, &server_t::process_text_message);
+    connect(socket, &QWebSocket::disconnected, this, &server_t::socket_disconnected);
 
     this->clients << socket;
 }
 
-void erised::server::process_text_message(QString const& message) {
+void erised::server::server_t::process_text_message(QString const& message) {
     auto* client = qobject_cast<QWebSocket*>(sender());
     if (this->debug) {
         qDebug() << "Message received:" << message;
     }
 
     if (client) {
-        client->sendTextMessage(message.toUpper());
+        auto response = handler_t::get_instance().process_packet(message);
+        client->sendTextMessage(response);
     }
 }
 
-void erised::server::process_binary_message(QByteArray const& message) {
-    auto* client = qobject_cast<QWebSocket*>(sender());
-    if (this->debug) {
-        qDebug() << "Binary message received:" << message;
-    }
-
-    if (client) {
-        client->sendBinaryMessage(message);
-    }
-}
-
-void erised::server::socket_disconnected() {
+void erised::server::server_t::socket_disconnected() {
     auto* client = qobject_cast<QWebSocket*>(sender());
     if (this->debug) {
         qDebug() << "Socket disconnected:" << client;
