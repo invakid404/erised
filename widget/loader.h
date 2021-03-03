@@ -15,7 +15,7 @@ inline auto load_widget_from_file(QString const& file_name) -> QWidget* {
     QPluginLoader loader(file_name);
     auto* instance = loader.instance();
     if (instance) {
-        auto interface = qobject_cast<widget_interface*>(instance);
+        auto interface = qobject_cast<widget_t*>(instance);
         if (interface) {
             return interface->instantiate_widget();
         }

@@ -11,10 +11,10 @@
 #include <QPushButton>
 #include <QtPlugin>
 
-class test : public QObject, erised::widget::widget_interface {
+class test : public QObject, erised::widget::widget_t {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "tk.erised.Erised.TestWidget" FILE "test-widget.json")
-    Q_INTERFACES(widget_interface)
+    Q_INTERFACES(widget_t)
 public:
     QWidget* instantiate_widget() override {
         auto* button = new QPushButton("Hello, world!");
