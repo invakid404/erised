@@ -10,6 +10,7 @@
 #include <QObject>
 #include <QPushButton>
 #include <QtPlugin>
+#include <QDebug>
 
 class test : public QObject, erised::widget::widget_t {
     Q_OBJECT
