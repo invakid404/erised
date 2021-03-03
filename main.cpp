@@ -1,6 +1,7 @@
 #include <QApplication>
-#include "widget/widget.h"
+
 #include "server/server.h"
+#include "widget/widget.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);

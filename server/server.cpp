@@ -9,8 +9,10 @@
 
 QT_USE_NAMESPACE
 
-erised::server::server(quint16 port, bool debug, QObject *parent) : QObject(parent), web_socket_server(
-        new QWebSocketServer(QStringLiteral("Erised"), QWebSocketServer::NonSecureMode, this)), debug(debug) {
+erised::server::server(quint16 port, bool debug, QObject* parent)
+    : QObject(parent),
+      web_socket_server(new QWebSocketServer(QStringLiteral("Erised"), QWebSocketServer::NonSecureMode, this)),
+      debug(debug) {
     if (this->web_socket_server->listen(QHostAddress::Any, port)) {
         if (this->debug) {
             qDebug() << "Server listening on port" << port;
@@ -32,7 +34,7 @@ erised::server::~server() {
 }
 
 void erised::server::on_new_connection() {
-    auto *socket = this->web_socket_server->nextPendingConnection();
+    auto* socket = this->web_socket_server->nextPendingConnection();
 
     connect(socket, &QWebSocket::textMessageReceived, this, &server::process_text_message);
     connect(socket, &QWebSocket::binaryMessageReceived, this, &server::process_binary_message);
