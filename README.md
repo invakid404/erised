@@ -21,6 +21,8 @@ echo "WIP"
 
 Erised uses [**clang-format**](https://github.com/invakid404/erised/blob/main/.clang-format) for formatting C++ code and a slight modification of the Google C++ code style. For the web panel (TypeScript/HTML/CSS/...), the [**prettier**](https://github.com/invakid404/erised/blob/main/web-panel/.prettierrc) formatter is being used.
 
+In terms of commit namings, Erised roughly follows [Angular's commit message format](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit) specification.
+
 ## Documentation
 
 Please see the [Erised wiki](https://github.com/invakid404/erised/wiki) for documentation.
