@@ -1,6 +1,7 @@
 [![Erised](assets/logo.png)](https://erised.tk)
 =========================
-###[NOIT 2020/2021, Project 208](https://edusoft.fmi.uni-sofia.bg)
+### [NOIT 2020/2021, Project 208](https://edusoft.fmi.uni-sofia.bg)
+
 ![Build status](https://github.com/invakid404/erised/actions/workflows/build.yml/badge.svg)
 
 Erised is a modular smart mirror solution inspired by Sci-fi culture.
