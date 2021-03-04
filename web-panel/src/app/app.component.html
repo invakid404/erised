@@ -1,0 +1,9 @@
+<div>
+  <div class="widget-container" #widgetContainer>
+    <div *ngFor="let widgetData of widgets | keyvalue">
+      <div [id]="widgetData.key" class="widget-box" cdkDragBoundary=".widget-container" cdkDrag (cdkDragMoved)="widgetMoved($event, widgetData.value.name)" [cdkDragFreeDragPosition]="widgetData.value.pos">
+        I can only be dragged within the dotted container
+      </div>
+    </div>
+  </div>
+</div>
