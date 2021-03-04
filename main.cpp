@@ -18,7 +18,14 @@ int main(int argc, char *argv[]) {
     auto widgets = erised::widget::loader::load_all_in_directory(QDir("./test-widget"));
     for (auto &widget : widgets) {
         widget->setParent(&main_window);
+        widget->setObjectName(QString("erised_") + widget->metaObject()->className());
+        widget->move(150, 200);
+
         widget->show();
+    }
+
+    for (auto &child : main_window.children()) {
+        qDebug() << child;
     }
 
     return QApplication::exec();

@@ -6,16 +6,18 @@
 #define ERISED_HANDLER_H
 
 #include <QString>
+#include <QWebSocket>
 #include <QtCore/QObject>
 
 namespace erised::server {
 class handler_t {
     Q_GADGET
 public:
-    enum packet_t { UPDATE = 0, SIZE };
+    enum packet_t { SYSTEM_INFO = 0, UPDATE, SIZE };
     Q_ENUM(packet_t);
 
-    auto process_packet(QString const&) -> void;
+    void process_new_connection(QWebSocket*);
+    void process_packet(QString const&);
 
     static auto& get_instance() {
         static handler_t instance;

@@ -52,6 +52,8 @@ void erised::server::server_t::on_new_connection() {
     connect(socket, &QWebSocket::disconnected, this, &server_t::socket_disconnected);
 
     this->clients << socket;
+
+    handler_t::get_instance().process_new_connection(socket);
 }
 
 void erised::server::server_t::process_text_message(QString const& message) {

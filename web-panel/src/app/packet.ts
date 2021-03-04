@@ -1,9 +1,15 @@
 export class Packet {
-    constructor(type: Number, payload: String) {
+    constructor(type: number, payload: any) {
         this.type = type;
         this.payload = payload;
     }
 
-    type: Number
-    payload: String
+    type: number
+    payload: any
+}
+
+export enum PacketType {
+    SYSTEM_INFO = 0,
+    UPDATE,
+    COUNT
 }
