@@ -8,6 +8,10 @@
 #include <QMainWindow>
 
 namespace erised::util {
+/*
+ * `get_main_window` is a utility function, which returns a pointer to the `QMainWindow` instance.
+ * Return value is `nullptr` if such an instance doesn't exist.
+ */
 inline auto get_main_window() -> QMainWindow* {
     for (auto& top_level_widget : QApplication::topLevelWidgets()) {
         auto curr = qobject_cast<QMainWindow*>(top_level_widget);
@@ -18,6 +22,6 @@ inline auto get_main_window() -> QMainWindow* {
 
     return nullptr;
 }
-}
+}  // namespace erised::util
 
 #endif  // ERISED_WINDOW_H

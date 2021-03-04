@@ -11,17 +11,22 @@
 #include <QtCore/QObject>
 
 QT_FORWARD_DECLARE_CLASS(QWebSocketServer)
-
 QT_FORWARD_DECLARE_CLASS(QWebSocket)
 
 namespace erised::server {
+/*
+ * `server_t` is a wrapper for Qt's `QWebSocketServer`, which manages websocket connections.
+ */
 class server_t : public QObject {
     Q_OBJECT
 public:
     explicit server_t(quint16 port, bool debug = false, QObject *parent = nullptr);
     ~server_t() override;
 
-    void broadcast_text_message(QString const&, QWebSocket*);
+    /*
+     * `broadcast_text_message` sends a message to all connected websockets, except for the `sender`.
+     */
+    void broadcast_text_message(QString const &, QWebSocket *);
 Q_SIGNALS:
     void closed();
 

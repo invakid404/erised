@@ -9,9 +9,17 @@
 #include <QString>
 
 namespace erised::widget {
+/*
+ * `widget_t` is the interface that Erised widgets must implement.
+ */
 class widget_t {
 public:
     virtual ~widget_t() = default;
+
+    /*
+     * `instantiate_widget` is the widget's entry-point.
+     * Return value must be a dynamically-allocated `QWidget` instance.
+     */
     virtual QWidget* instantiate_widget() = 0;
 };
 }  // namespace erised::widget

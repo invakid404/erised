@@ -24,9 +24,5 @@ int main(int argc, char *argv[]) {
         widget->show();
     }
 
-    for (auto &child : main_window.children()) {
-        qDebug() << child;
-    }
-
     return QApplication::exec();
 }

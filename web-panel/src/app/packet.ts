@@ -9,7 +9,7 @@ export class Packet {
 }
 
 export enum PacketType {
-    SYSTEM_INFO = 0,
+    SYSTEM_INFO = 1,
     UPDATE,
     COUNT
 }

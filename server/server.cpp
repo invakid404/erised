@@ -53,6 +53,7 @@ void erised::server::server_t::on_new_connection() {
 
     this->clients << socket;
 
+    // Send full info to the newly connected socket
     handler_t::process_new_connection(socket);
 }
 
@@ -63,7 +64,9 @@ void erised::server::server_t::process_text_message(QString const& message) {
     }
 
     if (client) {
+        // Broadcast the packet to all clients
         this->broadcast_text_message(message, client);
+
         handler_t::get_instance().process_packet(message);
     }
 }

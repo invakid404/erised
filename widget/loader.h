@@ -11,6 +11,11 @@
 #include "interface.h"
 
 namespace erised::widget::loader {
+/*
+ * `load_widget_from_file` returns an instance of a `QWidget`, implemented by an Erised widget.
+ * Return value is `nullptr` if an error occurs or an unknown file is passed as an argument.
+ * To be loadable, `file_name` must have a valid suffix in accordance with the platform.
+ */
 inline auto load_widget_from_file(QString const& file_name) -> QWidget* {
     QPluginLoader loader(file_name);
     auto* instance = loader.instance();
@@ -26,6 +31,9 @@ inline auto load_widget_from_file(QString const& file_name) -> QWidget* {
     return nullptr;
 }
 
+/*
+ * `load_all_in_directory` returns a list of `QWidget` instances, implemented by widgets in the given `directory`.
+ */
 inline auto load_all_in_directory(QDir const& directory) {
     auto res = QList<QWidget*>();
 

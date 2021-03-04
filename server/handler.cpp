@@ -18,14 +18,24 @@ erised::server::handler_t::handler_t() {
     this->handlers[packet_t::UPDATE] = [&](auto const& payload) {
         auto* main_window = erised::util::get_main_window();
 
-        auto obj = payload.toArray();
-        for (auto val : obj) {
-            auto curr = val.toObject();
-            auto pos = curr.value("pos").toObject();
+        for (auto update_data : payload.toArray()) {
+            auto curr_update = update_data.toObject();
 
-            auto widget = main_window->findChild<QWidget*>(curr.value("name").toString());
+            /*
+             * Try to find the target widget
+             * TODO: Try to instantiate the widget if it doesn't exist, i.e. for adding new widgets?
+             */
+            auto widget = main_window->findChild<QWidget*>(curr_update.value("name").toString());
+            if (!widget) {
+                continue;
+            }
 
-            widget->move(pos.value("x").toInt(), pos.value("y").toInt());
+            // Update position if present
+            auto pos_it = curr_update.find("pos");
+            if (pos_it != curr_update.end()) {
+                auto pos = pos_it->toObject();
+                widget->move(pos.value("x").toInt(), pos.value("y").toInt());
+            }
         }
     };
 }
@@ -42,6 +52,12 @@ void erised::server::handler_t::process_packet(const QString& packet_data) {
     auto packet_type = json_obj.value("type").toInt();
     auto packet_payload = json_obj.value("payload");
 
+    // Check if we've received a valid packet in the first place
+    if (packet_type <= 0 || packet_type >= packet_t::SIZE) {
+        return;
+    }
+
+    // Invoke the appropriate handler with the payload
     this->handlers[packet_type](packet_payload);
 }
 
@@ -54,8 +70,8 @@ QString erised::server::handler_t::build_system_info_packet() {
     auto system_info_payload = QJsonObject();
 
     auto main_window_size = main_window->size();
-
     auto system_info_resolution = QJsonObject();
+
     system_info_resolution["x"] = main_window_size.width();
     system_info_resolution["y"] = main_window_size.height();
 
@@ -73,6 +89,8 @@ QString erised::server::handler_t::build_global_update_packet() {
     auto* main_window = erised::util::get_main_window();
 
     auto update_payload = QJsonArray();
+
+    // Find all Erised widgets by looking for children of type `QWidget` with the "erised_" name prefix
     for (auto& widget : main_window->findChildren<QWidget*>(QRegularExpression("erised_"))) {
         auto widget_info = QJsonObject();
         widget_info["name"] = widget->objectName();

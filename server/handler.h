@@ -10,15 +10,28 @@
 #include <QtCore/QObject>
 
 namespace erised::server {
+/*
+ * `handler_t` is a singleton, responsible for handling websocket communication and packets.
+ */
 class handler_t {
     Q_GADGET
 public:
-    enum packet_t { SYSTEM_INFO = 0, UPDATE, SIZE };
+    enum packet_t { SYSTEM_INFO = 1, UPDATE, SIZE };
     Q_ENUM(packet_t);
 
+    /*
+     * `process_new_connection` sends initial info to a new websocket, e.g. the system's resolution, widgets, etc.
+     */
     static void process_new_connection(QWebSocket*);
+
+    /*
+     * `process_packet` parses an incoming packet and invokes the proper packet handler.
+     */
     void process_packet(QString const&);
 
+    /*
+     * `get_instance` returns a global instance of `handler_t`.
+     */
     static auto& get_instance() {
         static handler_t instance;
         return instance;
@@ -30,9 +43,19 @@ public:
 private:
     handler_t();
 
+    /*
+     * `build_system_info_packet` gathers information about the system and builds a `SYSTEM_INFO` packet.
+     */
     static QString build_system_info_packet();
+
+    /*
+     * `build_global_update_packet` builds an `UPDATE` packet, containing information about all loaded widgets.
+     */
     static QString build_global_update_packet();
 
+    /*
+     * `handlers` is an array of handler functions for all recognized packet types.
+     */
     std::array<std::function<void(QJsonValue const&)>, SIZE> handlers;
 };
 }  // namespace erised::server
