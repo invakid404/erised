@@ -12,7 +12,7 @@ set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets Qt5::WebSockets)
 
 add_subdirectory(test-widget)
 
-add_executable(${PROJECT_NAME} main.cpp server/server.cpp server/server.h server/handler.cpp server/handler.h widget/interface.h widget/loader.h)
+add_executable(${PROJECT_NAME} main.cpp server/server.cpp server/server.h server/handler.cpp server/handler.h widget/interface.h widget/loader.h util/window.h)
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

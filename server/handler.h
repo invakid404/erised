@@ -16,7 +16,7 @@ public:
     enum packet_t { SYSTEM_INFO = 0, UPDATE, SIZE };
     Q_ENUM(packet_t);
 
-    void process_new_connection(QWebSocket*);
+    static void process_new_connection(QWebSocket*);
     void process_packet(QString const&);
 
     static auto& get_instance() {
@@ -29,6 +29,9 @@ public:
 
 private:
     handler_t();
+
+    static QString build_system_info_packet();
+    static QString build_global_update_packet();
 
     std::array<std::function<void(QJsonValue const&)>, SIZE> handlers;
 };

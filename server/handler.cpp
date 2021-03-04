@@ -12,15 +12,11 @@
 #include <QMetaEnum>
 #include <QRegularExpression>
 
+#include "../util/window.h"
+
 erised::server::handler_t::handler_t() {
     this->handlers[packet_t::UPDATE] = [&](auto const& payload) {
-        QMainWindow* main_window;
-        for (auto& top_level_widget : QApplication::topLevelWidgets()) {
-            main_window = qobject_cast<QMainWindow*>(top_level_widget);
-            if (main_window) {
-                break;
-            }
-        }
+        auto* main_window = erised::util::get_main_window();
 
         auto obj = payload.toArray();
         for (auto val : obj) {
@@ -35,16 +31,25 @@ erised::server::handler_t::handler_t() {
 }
 
 void erised::server::handler_t::process_new_connection(QWebSocket* socket) {
-    QMainWindow* main_window;
-    for (auto& top_level_widget : QApplication::topLevelWidgets()) {
-        main_window = qobject_cast<QMainWindow*>(top_level_widget);
-        if (main_window) {
-            break;
-        }
-    }
+    socket->sendTextMessage(handler_t::build_system_info_packet());
+    socket->sendTextMessage(handler_t::build_global_update_packet());
+}
 
+void erised::server::handler_t::process_packet(const QString& packet_data) {
+    auto json_data = QJsonDocument::fromJson(packet_data.toLocal8Bit());
+    auto json_obj = json_data.object();
+
+    auto packet_type = json_obj.value("type").toInt();
+    auto packet_payload = json_obj.value("payload");
+
+    this->handlers[packet_type](packet_payload);
+}
+
+QString erised::server::handler_t::build_system_info_packet() {
     auto system_info_packet = QJsonObject();
     system_info_packet["type"] = packet_t::SYSTEM_INFO;
+
+    auto* main_window = erised::util::get_main_window();
 
     auto system_info_payload = QJsonObject();
 
@@ -58,42 +63,31 @@ void erised::server::handler_t::process_new_connection(QWebSocket* socket) {
 
     system_info_packet["payload"] = system_info_payload;
 
-    socket->sendTextMessage(QJsonDocument(system_info_packet).toJson());
+    return QJsonDocument(system_info_packet).toJson(QJsonDocument::Compact);
+}
 
+QString erised::server::handler_t::build_global_update_packet() {
     auto update_packet = QJsonObject();
     update_packet["type"] = packet_t::UPDATE;
 
+    auto* main_window = erised::util::get_main_window();
+
     auto update_payload = QJsonArray();
+    for (auto& widget : main_window->findChildren<QWidget*>(QRegularExpression("erised_"))) {
+        auto widget_info = QJsonObject();
+        widget_info["name"] = widget->objectName();
 
-    for (auto& top_level_widget : QApplication::topLevelWidgets()) {
-        if (auto* window = qobject_cast<QMainWindow*>(top_level_widget)) {
-            for (auto& widget : window->findChildren<QWidget*>(QRegularExpression("erised_"))) {
-                auto widget_info = QJsonObject();
-                widget_info["name"] = widget->objectName();
+        auto widget_pos = widget->mapToGlobal(widget->rect().topLeft());
 
-                auto widget_pos = widget->mapToGlobal(widget->rect().topLeft());
+        auto widget_pos_info = QJsonObject();
+        widget_pos_info["x"] = widget_pos.x();
+        widget_pos_info["y"] = widget_pos.y();
+        widget_info["pos"] = widget_pos_info;
 
-                auto widget_pos_info = QJsonObject();
-                widget_pos_info["x"] = widget_pos.x();
-                widget_pos_info["y"] = widget_pos.y();
-                widget_info["pos"] = widget_pos_info;
-
-                update_payload.append(widget_info);
-            }
-        }
+        update_payload.append(widget_info);
     }
 
     update_packet["payload"] = update_payload;
 
-    socket->sendTextMessage(QJsonDocument(update_packet).toJson());
-}
-
-void erised::server::handler_t::process_packet(const QString& packet_data) {
-    auto json_data = QJsonDocument::fromJson(packet_data.toLocal8Bit());
-    auto json_obj = json_data.object();
-
-    auto packet_type = json_obj.value("type").toInt();
-    auto packet_payload = json_obj.value("payload");
-
-    this->handlers[packet_type](packet_payload);
+    return QJsonDocument(update_packet).toJson(QJsonDocument::Compact);
 }

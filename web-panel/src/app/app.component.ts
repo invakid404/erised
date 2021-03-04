@@ -31,9 +31,6 @@ export class AppComponent {
     this.handlers = new Array<(packet: Packet) => void>(PacketType.COUNT);
 
     this.handlers[PacketType.SYSTEM_INFO] = (packet: Packet) => {
-      console.log("received system info packet");
-      console.log(packet.payload);
-
       this.systemInfo = {};
       Object.assign(this.systemInfo, packet.payload);
     }
@@ -49,17 +46,13 @@ export class AppComponent {
           widgetData = {};
         }
 
-        let style = getComputedStyle(this.widgetContainer.nativeElement);
-
-        let containerWidth = Number(style.width.slice(0, -2));
-        let containerHeight = Number(style.height.slice(0, -2));
+        let [containerWidth, containerHeight] = this.getContainerSize();
 
         widget.pos.x = this.map(widget.pos.x, 0, this.systemInfo.resolution.x, 0, containerWidth);
         widget.pos.y = this.map(widget.pos.y, 0, this.systemInfo.resolution.y, 0, containerHeight);
 
         Object.assign(widgetData, widget);
 
-        console.log(widgetData);
         this.widgets.set(widgetName, widgetData);
       });
     }
@@ -78,16 +71,13 @@ export class AppComponent {
 
     let boxElement = document.getElementById(name)!;
 
-    const fromLeftOfDraggedElement = e.pointerPosition.x - boxElement.getBoundingClientRect().left;
-    const fromTopOfDraggedElement = e.pointerPosition.y - boxElement.getBoundingClientRect().top;
+    const left = e.pointerPosition.x - boxElement.getBoundingClientRect().left;
+    const top = e.pointerPosition.y - boxElement.getBoundingClientRect().top;
 
-    widgetData.pos.x = e.pointerPosition.x - fromLeftOfDraggedElement - this.widgetContainer.nativeElement.getBoundingClientRect().left;
-    widgetData.pos.y = e.pointerPosition.y - fromTopOfDraggedElement - this.widgetContainer.nativeElement.getBoundingClientRect().top;
+    widgetData.pos.x = e.pointerPosition.x - left - this.widgetContainer.nativeElement.getBoundingClientRect().left;
+    widgetData.pos.y = e.pointerPosition.y - top - this.widgetContainer.nativeElement.getBoundingClientRect().top;
 
-    let style = getComputedStyle(this.widgetContainer.nativeElement);
-
-    let containerWidth = Number(style.width.slice(0, -2));
-    let containerHeight = Number(style.height.slice(0, -2));
+    let [containerWidth, containerHeight] = this.getContainerSize();
 
     console.log(widgetData.pos);
 
@@ -106,6 +96,12 @@ export class AppComponent {
 
   handle(packet: Packet) {
     this.handlers[packet.type](packet);
+  }
+
+  getContainerSize() {
+    let style = getComputedStyle(this.widgetContainer.nativeElement);
+
+    return [Number(style.width.slice(0, -2)), Number(style.height.slice(0, -2))];
   }
 
   map(value: number, x1: number, y1: number, x2: number, y2: number) {
