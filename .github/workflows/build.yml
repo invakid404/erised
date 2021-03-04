@@ -35,8 +35,6 @@ jobs:
 
           install: |
             apt update -q -y
-            apt install -q -y software-properties-common
-            add-apt-repository universe -y
             apt install -q -y build-essential cmake qt5-default libqt5websockets5-dev
 
           run: |
