@@ -4,7 +4,7 @@
 
 ![Build status](https://github.com/invakid404/erised/actions/workflows/build.yml/badge.svg)
 
-Erised is a modular smart mirror solution inspired by Sci-fi culture.
+Erised is a modular smart mirror solution inspired by Sci-Fi culture.
 
 It is an intelligent personal assistant, modeled for maximal balance between convenience, usability, security, and has a beautiful, futuristic look.
 
@@ -12,10 +12,14 @@ It is an intelligent personal assistant, modeled for maximal balance between con
 
 ## Installation
 
-The officially-supported way of deploying Erised is with *Docker*:
+The officially supported way of deploying Erised is with *Docker*:
 ```sh
 echo "WIP"
 ```
+
+## Coding conventions
+
+Erised uses [**clang-format**](https://github.com/invakid404/erised/blob/main/.clang-format) for formatting C++ code and a slight modification of the Google C++ code style. For the web panel, the **prettier** formatter is being used.
 
 ## Documentation
 

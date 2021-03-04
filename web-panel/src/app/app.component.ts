@@ -5,7 +5,7 @@ import { Packet, PacketType } from './packet';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'angular-client';
@@ -17,14 +17,22 @@ export class AppComponent {
   systemInfo: any;
   widgets: Map<String, any>;
 
-  @ViewChild("widgetContainer")
-  widgetContainer!: { nativeElement: Element; getBoundingClientRect: () => { (): any; new(): any; left: number; top: number; }; };
-  
-  @ViewChild("data")
-  dataInput!: { nativeElement: { value: any; }; };
+  @ViewChild('widgetContainer')
+  widgetContainer!: {
+    nativeElement: Element;
+    getBoundingClientRect: () => {
+      (): any;
+      new (): any;
+      left: number;
+      top: number;
+    };
+  };
+
+  @ViewChild('data')
+  dataInput!: { nativeElement: { value: any } };
 
   constructor() {
-    console.log(this.map(400, 0, 400, 0, 1920))
+    console.log(this.map(400, 0, 400, 0, 1920));
 
     this.widgets = new Map<String, any>();
 
@@ -33,13 +41,13 @@ export class AppComponent {
     this.handlers[PacketType.SYSTEM_INFO] = (packet: Packet) => {
       this.systemInfo = {};
       Object.assign(this.systemInfo, packet.payload);
-    }
+    };
 
     this.handlers[PacketType.UPDATE] = (packet: Packet) => {
       let payload = packet.payload;
       console.log(payload);
       payload.forEach((widget: any) => {
-        let widgetName = widget["name"];
+        let widgetName = widget['name'];
 
         let widgetData = this.widgets.get(widgetName);
         if (!widgetData) {
@@ -48,21 +56,33 @@ export class AppComponent {
 
         let [containerWidth, containerHeight] = this.getContainerSize();
 
-        widget.pos.x = this.map(widget.pos.x, 0, this.systemInfo.resolution.x, 0, containerWidth);
-        widget.pos.y = this.map(widget.pos.y, 0, this.systemInfo.resolution.y, 0, containerHeight);
+        widget.pos.x = this.map(
+          widget.pos.x,
+          0,
+          this.systemInfo.resolution.x,
+          0,
+          containerWidth
+        );
+        widget.pos.y = this.map(
+          widget.pos.y,
+          0,
+          this.systemInfo.resolution.y,
+          0,
+          containerHeight
+        );
 
         Object.assign(widgetData, widget);
 
         this.widgets.set(widgetName, widgetData);
       });
-    }
+    };
 
-    this.socket$ = webSocket<Packet>("ws://localhost:1337");
+    this.socket$ = webSocket<Packet>('ws://localhost:1337');
 
     this.socket$.subscribe(
       (packet) => this.handle(packet),
       (err) => console.error(err),
-      () => console.warn("Completed!")
+      () => console.warn('Completed!')
     );
   }
 
@@ -74,20 +94,40 @@ export class AppComponent {
     const left = e.pointerPosition.x - boxElement.getBoundingClientRect().left;
     const top = e.pointerPosition.y - boxElement.getBoundingClientRect().top;
 
-    widgetData.pos.x = e.pointerPosition.x - left - this.widgetContainer.nativeElement.getBoundingClientRect().left;
-    widgetData.pos.y = e.pointerPosition.y - top - this.widgetContainer.nativeElement.getBoundingClientRect().top;
+    widgetData.pos.x =
+      e.pointerPosition.x -
+      left -
+      this.widgetContainer.nativeElement.getBoundingClientRect().left;
+    widgetData.pos.y =
+      e.pointerPosition.y -
+      top -
+      this.widgetContainer.nativeElement.getBoundingClientRect().top;
 
     let [containerWidth, containerHeight] = this.getContainerSize();
 
     console.log(widgetData.pos);
 
-    let updatePacket = new Packet(PacketType.UPDATE, [{
-      name: name,
-      pos: {
-        x: this.map(widgetData.pos.x, 0, containerWidth, 0, this.systemInfo.resolution.x),
-        y: this.map(widgetData.pos.y, 0, containerHeight, 0, this.systemInfo.resolution.y)
-      }}]
-    );
+    let updatePacket = new Packet(PacketType.UPDATE, [
+      {
+        name: name,
+        pos: {
+          x: this.map(
+            widgetData.pos.x,
+            0,
+            containerWidth,
+            0,
+            this.systemInfo.resolution.x
+          ),
+          y: this.map(
+            widgetData.pos.y,
+            0,
+            containerHeight,
+            0,
+            this.systemInfo.resolution.y
+          ),
+        },
+      },
+    ]);
 
     this.widgets.set(name, widgetData);
 
@@ -101,10 +141,13 @@ export class AppComponent {
   getContainerSize() {
     let style = getComputedStyle(this.widgetContainer.nativeElement);
 
-    return [Number(style.width.slice(0, -2)), Number(style.height.slice(0, -2))];
+    return [
+      Number(style.width.slice(0, -2)),
+      Number(style.height.slice(0, -2)),
+    ];
   }
 
   map(value: number, x1: number, y1: number, x2: number, y2: number) {
-    return Math.round((value - x1) * (y2 - x2) / (y1 - x1) + x2);
+    return Math.round(((value - x1) * (y2 - x2)) / (y1 - x1) + x2);
   }
 }
