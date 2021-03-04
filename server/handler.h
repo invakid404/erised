@@ -6,11 +6,16 @@
 #define ERISED_HANDLER_H
 
 #include <QString>
+#include <QtCore/QObject>
 
 namespace erised::server {
 class handler_t {
+    Q_GADGET
 public:
-    auto process_packet(QString const&) -> QString;
+    enum packet_t { UPDATE = 0, SIZE };
+    Q_ENUM(packet_t);
+
+    auto process_packet(QString const&) -> void;
 
     static auto& get_instance() {
         static handler_t instance;
@@ -21,7 +26,9 @@ public:
     void operator=(handler_t const&) = delete;
 
 private:
-    handler_t() = default;
+    handler_t();
+
+    std::array<std::function<void(QJsonValue const&)>, SIZE> handlers;
 };
 }  // namespace erised::server
 
