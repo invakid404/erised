@@ -19,8 +19,9 @@ class server_t : public QObject {
     Q_OBJECT
 public:
     explicit server_t(quint16 port, bool debug = false, QObject *parent = nullptr);
-
     ~server_t() override;
+
+    void broadcast_text_message(QString const&, QWebSocket*);
 Q_SIGNALS:
     void closed();
 

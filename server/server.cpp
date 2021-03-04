@@ -35,6 +35,16 @@ erised::server::server_t::~server_t() {
     qDeleteAll(this->clients.begin(), this->clients.end());
 }
 
+void erised::server::server_t::broadcast_text_message(const QString& message, QWebSocket* sender) {
+    for (auto& client : this->clients) {
+        if (sender == client) {
+            continue;
+        }
+
+        client->sendTextMessage(message);
+    }
+}
+
 void erised::server::server_t::on_new_connection() {
     auto* socket = this->web_socket_server->nextPendingConnection();
 
@@ -51,8 +61,8 @@ void erised::server::server_t::process_text_message(QString const& message) {
     }
 
     if (client) {
-        auto response = handler_t::get_instance().process_packet(message);
-        client->sendTextMessage(response);
+        this->broadcast_text_message(message, client);
+        handler_t::get_instance().process_packet(message);
     }
 }
 
