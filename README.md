@@ -19,7 +19,7 @@ echo "WIP"
 
 ## Coding conventions
 
-Erised uses [**clang-format**](https://github.com/invakid404/erised/blob/main/.clang-format) for formatting C++ code and a slight modification of the Google C++ code style. For the web panel, the **prettier** formatter is being used.
+Erised uses [**clang-format**](https://github.com/invakid404/erised/blob/main/.clang-format) for formatting C++ code and a slight modification of the Google C++ code style. For the web panel (TypeScript/HTML/CSS/...), the **prettier** formatter is being used.
 
 ## Documentation
 
