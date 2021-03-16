@@ -15,7 +15,12 @@
 #include "../util/window.h"
 
 erised::server::handler_t::handler_t() {
-    this->handlers[packet_t::UPDATE] = [&](auto const& payload) {
+    this->handlers[packet_t::UPDATE] = [&](auto* sender, auto const& payload) {
+        auto state = this->websocket_states[sender];
+        if (state != AUTHENTICATED) {
+            return;
+        }
+
         auto* main_window = erised::util::get_main_window();
 
         for (auto update_data : payload.toArray()) {
@@ -41,11 +46,13 @@ erised::server::handler_t::handler_t() {
 }
 
 void erised::server::handler_t::process_new_connection(QWebSocket* socket) {
+    this->websocket_states[socket] = UNAUTHENTICATED;
+
     socket->sendTextMessage(handler_t::build_system_info_packet());
     socket->sendTextMessage(handler_t::build_global_update_packet());
 }
 
-void erised::server::handler_t::process_packet(const QString& packet_data) {
+void erised::server::handler_t::process_packet(QWebSocket* sender, const QString& packet_data) {
     auto json_data = QJsonDocument::fromJson(packet_data.toLocal8Bit());
     auto json_obj = json_data.object();
 
@@ -58,7 +65,7 @@ void erised::server::handler_t::process_packet(const QString& packet_data) {
     }
 
     // Invoke the appropriate handler with the payload
-    this->handlers[packet_type](packet_payload);
+    this->handlers[packet_type](sender, packet_payload);
 }
 
 QString erised::server::handler_t::build_system_info_packet() {

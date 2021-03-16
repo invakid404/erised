@@ -19,15 +19,18 @@ public:
     enum packet_t { SYSTEM_INFO = 1, UPDATE, SIZE };
     Q_ENUM(packet_t);
 
+    enum websocket_state_t { UNAUTHENTICATED = 1, AUTHENTICATED };
+    Q_ENUM(websocket_state_t);
+
     /*
      * `process_new_connection` sends initial info to a new websocket, e.g. the system's resolution, widgets, etc.
      */
-    static void process_new_connection(QWebSocket*);
+    void process_new_connection(QWebSocket*);
 
     /*
      * `process_packet` parses an incoming packet and invokes the proper packet handler.
      */
-    void process_packet(QString const&);
+    void process_packet(QWebSocket*, QString const&);
 
     /*
      * `get_instance` returns a global instance of `handler_t`.
@@ -53,10 +56,14 @@ private:
      */
     static QString build_global_update_packet();
 
+    QMap<QWebSocket*, websocket_state_t> websocket_states;
+
+    typedef std::function<void(QWebSocket*, QJsonValue const&)> packet_handler_t;
+
     /*
      * `handlers` is an array of handler functions for all recognized packet types.
      */
-    std::array<std::function<void(QJsonValue const&)>, SIZE> handlers;
+    std::array<packet_handler_t, SIZE> handlers;
 };
 }  // namespace erised::server
 
