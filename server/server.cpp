@@ -78,6 +78,8 @@ void erised::server::server_t::socket_disconnected() {
     }
 
     if (client) {
+        handler_t::get_instance().socket_disconnected(client);
+
         this->clients.removeAll(client);
         client->deleteLater();
     }

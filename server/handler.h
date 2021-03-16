@@ -27,6 +27,8 @@ public:
      */
     void process_new_connection(QWebSocket*);
 
+    void socket_disconnected(QWebSocket*);
+
     /*
      * `process_packet` parses an incoming packet and invokes the proper packet handler.
      */

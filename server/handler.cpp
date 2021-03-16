@@ -16,6 +16,7 @@
 
 erised::server::handler_t::handler_t() {
     this->handlers[packet_t::UPDATE] = [&](auto* sender, auto const& payload) {
+        // If websocket is not authenticated, ignore the packet
         auto state = this->websocket_states[sender];
         if (state != AUTHENTICATED) {
             return;
@@ -46,10 +47,16 @@ erised::server::handler_t::handler_t() {
 }
 
 void erised::server::handler_t::process_new_connection(QWebSocket* socket) {
+    // All websockets have an unauthenticated state by default
     this->websocket_states[socket] = UNAUTHENTICATED;
 
     socket->sendTextMessage(handler_t::build_system_info_packet());
     socket->sendTextMessage(handler_t::build_global_update_packet());
+}
+
+void erised::server::handler_t::socket_disconnected(QWebSocket* socket) {
+    // Clear all persisted information about the disconnected socket
+    this->websocket_states.remove(socket);
 }
 
 void erised::server::handler_t::process_packet(QWebSocket* sender, const QString& packet_data) {
