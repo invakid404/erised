@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 
     // Create main window
     QMainWindow main_window;
-    main_window.showFullScreen();
+    main_window.showMaximized();
 
     // Load all widgets in current workdir
     auto widgets = erised::widget::loader::load_all_in_directory(QDir("./test-widget"));
