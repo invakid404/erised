@@ -38,8 +38,8 @@ jobs:
             apt install -q -y build-essential cmake ninja-build qt5-default libqt5websockets5-dev
 
           run: |
-            cmake -GNinja -E make_directory ${{github.workspace}}/build
-            cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+            cmake -E make_directory ${{github.workspace}}/build
+            cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -GNinja
             cmake --build . --config $BUILD_TYPE
             ctest -C $BUILD_TYPE
             cp erised /artifacts/erised
