@@ -35,7 +35,7 @@ jobs:
 
           install: |
             apt update -q -y
-            apt install -q -y build-essential cmake ninja qt5-default libqt5websockets5-dev
+            apt install -q -y build-essential cmake ninja-build qt5-default libqt5websockets5-dev
 
           run: |
             cmake -GNinja -E make_directory ${{github.workspace}}/build
