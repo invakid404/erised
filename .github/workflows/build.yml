@@ -35,10 +35,10 @@ jobs:
 
           install: |
             apt update -q -y
-            apt install -q -y build-essential cmake qt5-default libqt5websockets5-dev
+            apt install -q -y build-essential cmake ninja qt5-default libqt5websockets5-dev
 
           run: |
-            cmake -E make_directory ${{github.workspace}}/build
+            cmake -GNinja -E make_directory ${{github.workspace}}/build
             cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
             cmake --build . --config $BUILD_TYPE
             ctest -C $BUILD_TYPE
