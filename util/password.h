@@ -18,7 +18,7 @@ const auto hash_method = EVP_sha512();
  * Constant-time comparison to prevent timing attacks
  * Taken from https://crackstation.net/hashing-security.htm
  */
-bool slow_equals(const QByteArray &a, const QByteArray &b) {
+inline bool slow_equals(const QByteArray &a, const QByteArray &b) {
     const int len_a = a.length();
     const int len_b = b.length();
 
@@ -28,7 +28,7 @@ bool slow_equals(const QByteArray &a, const QByteArray &b) {
     return diff == 0;
 }
 
-QByteArray generate(const QByteArray &password) {
+inline QByteArray generate(const QByteArray &password) {
     std::array<uint32_t, 4> salt{{erised::util::random::rand(), erised::util::random::rand(),
                                   erised::util::random::rand(), erised::util::random::rand()}};
 
@@ -48,7 +48,7 @@ QByteArray generate(const QByteArray &password) {
     return salt_view.toBase64() + ':' + out_buf_view.toBase64();
 }
 
-bool verify(const QByteArray &secret, const QByteArray &password) {
+inline bool verify(const QByteArray &secret, const QByteArray &password) {
     const QVector<QByteArray> list = erised::util::byte_array::split_to_views(secret, ":", Qt::SkipEmptyParts);
     if (list.size() != 2) return false;
 

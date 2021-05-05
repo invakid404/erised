@@ -33,7 +33,7 @@ private:
     FILE *rand_dev;
 };
 
-uint32_t rand(const uint32_t min = 0, const uint32_t max = std::numeric_limits<uint32_t>::max()) {
+inline uint32_t rand(const uint32_t min = 0, const uint32_t max = std::numeric_limits<uint32_t>::max()) {
     static random_t layer;
 
     std::uniform_int_distribution<uint32_t> uniform(min, max);

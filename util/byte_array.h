@@ -8,7 +8,7 @@
 #include <QByteArray>
 
 namespace erised::util::byte_array {
-QVector<QByteArray> split_to_views(const QByteArray &in, const QByteArray &sep, Qt::SplitBehavior behavior) {
+inline QVector<QByteArray> split_to_views(const QByteArray &in, const QByteArray &sep, Qt::SplitBehavior behavior) {
     if (sep.isEmpty()) return {in};
 
     QVector<QByteArray> ret;
