@@ -1,10 +1,13 @@
 #include <QApplication>
 
 #include "server/server.h"
+#include "util/config.h"
 #include "widget/loader.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+
+    QApplication::setOrganizationName("erised");
 
     // Start web socket server
     auto server = new erised::server::server_t(1337, true, &a);
