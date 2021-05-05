@@ -2,7 +2,7 @@
 =========================
 ### [NOIT 2020/2021, Project 208](https://edusoft.fmi.uni-sofia.bg)
 
-![Build status](https://github.com/invakid404/erised/actions/workflows/build.yml/badge.svg)
+![Build status](https://github.com/invakid404/erised/actions/workflows/commit.yml/badge.svg)
 
 Erised is a modular smart mirror solution inspired by Sci-Fi culture.
 
