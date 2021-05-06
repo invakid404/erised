@@ -32,7 +32,9 @@ jobs:
             tar xf docuowl.tar.gz --directory docuowl-release
             rm docuowl.tar.gz
         - name: Build documentation
-          run: ./docuowl-release/docuowl --input docs-src --output docs
+          run: |
+            rm -rf docs
+            ./docuowl-release/docuowl --input docs-src --output docs
         - name: Cleanup
           run: rm -rf ./docuowl-release
         - name: Push changes
