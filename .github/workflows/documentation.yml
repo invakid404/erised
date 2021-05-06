@@ -1,0 +1,21 @@
+name: documentation
+
+on:
+  push:
+    branches:
+      - gh-pages
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Fetch latest Docuowl release
+          id: docuowl-release
+          uses: pozetroninc/github-action-get-latest-release@v0.5.0
+          with:
+            owner: docuowl
+            repo: docuowl
+            exclude: prerelease, draft
+        - name: Download Docuowl binaries
+          run: echo ${steps.docuowl-release.outputs.release}
