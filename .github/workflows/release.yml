@@ -28,6 +28,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          platforms: linux/arm64
+          platforms: linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
           tags: ${{ github.repository_owner }}/erised:${{ env.IMAGE_TAG }},${{ github.repository_owner }}/erised:latest
