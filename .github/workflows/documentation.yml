@@ -34,7 +34,7 @@ jobs:
         - name: Build documentation
           run: |
             rm -rf docs
-            ./docuowl-release/docuowl --input docs-src --output docs
+            ./docuowl-release/docuowl --input _docs --output docs
         - name: Cleanup
           run: rm -rf ./docuowl-release
         - name: Push changes
