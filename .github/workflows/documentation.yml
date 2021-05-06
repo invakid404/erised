@@ -31,4 +31,4 @@ jobs:
             tar xf docuowl.tar.gz
             rm docuowl.tar.gz
         - name: Build documentation
-          run: ./docuowl --input docs --output docs-html
+          run: ./docuowl --input docs-src --output docs
