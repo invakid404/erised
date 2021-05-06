@@ -18,4 +18,11 @@ jobs:
             repo: docuowl
             exclude: prerelease, draft
         - name: Download Docuowl binaries
-          run: echo ${{steps.docuowl.outputs.release}}
+          run: |
+            DOCUOWL_URL="https://github.com/docuowl/docuowl/releases/download/%s/docuowl_%s_Linux_x86_64.tar.gz"
+            DOCUOWL_RELEASE=${{steps.docuowl.outputs.release}}
+            DOCUOWL_VERSION=${DOCUOWL_RELEASE/v/}
+            FORMATTED_URL=$(printf ${DOCUOWL_URL} ${DOCUOWL_RELEASE} ${DOCUOWL_VERSION})
+            wget ${FORMATTED_URL} -O docuowl.tar.gz
+            tar xf docuowl.tar.gz
+            rm docuowl.tar.gz
