@@ -32,3 +32,7 @@ jobs:
             rm docuowl.tar.gz
         - name: Build documentation
           run: ./docuowl --input docs-src --output docs
+        - name: Push changes
+          uses: EndBug/add-and-commit@v7.0.0
+          with:
+            message: "docs: autoupdate documentation"
