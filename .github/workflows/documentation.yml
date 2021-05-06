@@ -27,11 +27,14 @@ jobs:
             DOCUOWL_RELEASE=${{steps.docuowl.outputs.release}}
             DOCUOWL_VERSION=${DOCUOWL_RELEASE/v/}
             FORMATTED_URL=$(printf ${DOCUOWL_URL} ${DOCUOWL_RELEASE} ${DOCUOWL_VERSION})
+            mkdir docuowl-release
             wget ${FORMATTED_URL} -O docuowl.tar.gz
-            tar xf docuowl.tar.gz
+            tar xf docuowl.tar.gz --directory docuowl-release
             rm docuowl.tar.gz
         - name: Build documentation
-          run: ./docuowl --input docs-src --output docs
+          run: ./docuowl-release/docuowl --input docs-src --output docs
+        - name: Cleanup
+          run: rm -rf ./docuowl-release
         - name: Push changes
           uses: EndBug/add-and-commit@v7.0.0
           with:
