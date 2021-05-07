@@ -15,3 +15,5 @@ public:
 };
 ```
 *This fragment is adapted from the [Erised GitHub repository](https://github.com/invakid404/erised/tree/main/test-widget)*.
+
+![minimal-example-02](https://www.erised.tk/images/widget-minimal-example-02.png)
