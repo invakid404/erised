@@ -25,4 +25,4 @@ In terms of commit namings, Erised roughly follows [Angular's commit message for
 
 ## Documentation
 
-Please see the [Erised wiki](https://github.com/invakid404/erised/wiki) for documentation.
+Please see the [Erised wiki](https://www.erised.tk/docs) for documentation.
