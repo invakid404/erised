@@ -7,7 +7,6 @@
 
 #include <widget/interface.h>
 
-#include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QObject>

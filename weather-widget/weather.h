@@ -9,7 +9,6 @@
 #include <util/positioning.h>
 #include <widget/interface.h>
 
-#include <QDebug>
 #include <QHBoxLayout>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -46,7 +45,6 @@ public:
      */
     auto fetch_weather() {
         auto location_id = this->fetch_location();
-        qDebug() << location_id;
 
         auto weather_query =
             QStringLiteral("https://www.metaweather.com/api/location/%1/").arg(QString::number(location_id));
