@@ -34,12 +34,16 @@ private:
         auto api_response_json = QJsonDocument::fromJson(api_response_data).object();
 
         this->curr_position = {.country = api_response_json.value("country").toString(),
-                               .city = api_response_json.value("city").toString()};
+                               .city = api_response_json.value("city").toString(),
+                               .latitude = api_response_json.value("latitude").toDouble(),
+                               .longitude = api_response_json.value("longitude").toDouble()};
     }
 
     struct position_data {
         QString country;
         QString city;
+        double latitude;
+        double longitude;
     } curr_position;
 };
 }  // namespace erised::util
