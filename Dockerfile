@@ -12,7 +12,7 @@ RUN apk update && \
 	rm -rf /var/cache/apk/*
 
 WORKDIR /build
-RUN git clone https://github.com/invakid404/erised .
+COPY . /build
 
 RUN cmake . -DCMAKE_BUILD_TYPE=Release -GNinja && \
 	cmake --build . --config Release && \
