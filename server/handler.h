@@ -30,9 +30,9 @@ public:
     void process_packet(QString const&);
 
     /*
-     * `get_instance` returns a global instance of `handler_t`.
+     * `the` returns a global instance of `handler_t`.
      */
-    static auto& get_instance() {
+    static auto& the() {
         static handler_t instance;
         return instance;
     }
