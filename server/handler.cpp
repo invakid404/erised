@@ -14,6 +14,8 @@
 
 #include "../util/window.h"
 
+// TODO: Rewrite to use `erised::widget::manager_t`
+
 erised::server::handler_t::handler_t() {
     this->handlers[packet_t::UPDATE] = [&](auto const& payload) {
         auto* main_window = erised::util::get_main_window();

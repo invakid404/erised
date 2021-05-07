@@ -1,0 +1,9 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file>fonts/Poppins-Regular.ttf</file>
+        <file>fonts/Poppins-SemiBold.ttf</file>
+        <file>fonts/Poppins-Bold.ttf</file>
+        <file>fonts/Poppins-ExtraBold.ttf</file>
+    </qresource>
+</RCC>
