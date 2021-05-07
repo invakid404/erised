@@ -6,7 +6,7 @@
 
 #include <QPluginLoader>
 
-widget_t *erised::widget::manager_t::load_widget_from_file(QString const &file_name) {
+QWidget *erised::widget::manager_t::load_widget_from_file(QString const &file_name) {
     QPluginLoader loader(file_name);
     auto *instance = loader.instance();
     if (instance) {
@@ -15,7 +15,12 @@ widget_t *erised::widget::manager_t::load_widget_from_file(QString const &file_n
             auto iid = loader.metaData().value("IID").toString();
             this->loaded_widgets[iid] = interface;
 
-            return interface;
+            auto widget_instance = interface->instantiate_widget();
+
+            widget_instance->setParent(erised::util::get_main_window());
+            widget_instance->show();
+
+            return widget_instance;
         }
 
         loader.unload();
@@ -23,8 +28,8 @@ widget_t *erised::widget::manager_t::load_widget_from_file(QString const &file_n
 
     return nullptr;
 }
-QList<widget_t *> manager_t::load_all_in_directory(const QDir &directory) {
-    auto res = QList<widget_t *>();
+QList<QWidget *> manager_t::load_all_in_directory(const QDir &directory) {
+    auto res = QList<QWidget *>();
 
     auto shared_libs = directory.entryInfoList(QDir::Files);
     for (auto &file_info : shared_libs) {

@@ -9,13 +9,14 @@
 #include <QtWidgets>
 
 #include "interface.h"
+#include "../util/window.h"
 
 namespace erised::widget {
 class manager_t {
 public:
-    widget_t *load_widget_from_file(QString const &);
+    QWidget* load_widget_from_file(QString const &);
 
-    QList<widget_t *> load_all_in_directory(QDir const &);
+    QList<QWidget*> load_all_in_directory(QDir const &);
 
     static manager_t &the() {
         static manager_t instance;
