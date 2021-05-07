@@ -29,14 +29,10 @@ public:
             this->clock_label->adjustSize();
         };
 
-        this->clock_label = new QLabel("");
+        this->clock_label = new QLabel();
 
         this->clock_label->setAlignment(Qt::AlignTop);
         this->clock_label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-
-        auto clock_font = this->clock_label->font();
-        clock_font.setPointSize(50);
-        this->clock_label->setFont(clock_font);
 
         set_time();
 

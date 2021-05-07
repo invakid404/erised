@@ -16,6 +16,7 @@ qt5_add_resources(QT_RESOURCES erised.qrc)
 
 add_subdirectory(test-widget)
 add_subdirectory(clock-widget)
+add_subdirectory(hello-widget)
 add_subdirectory(weather-widget)
 
 add_executable(${PROJECT_NAME} main.cpp server/server.cpp server/server.h server/handler.cpp server/handler.h widget/interface.h util/window.h widget/manager.cpp widget/manager.h style/global.h ${QT_RESOURCES} util/positioning.h util/http.h)

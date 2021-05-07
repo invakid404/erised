@@ -94,6 +94,10 @@ public:
 
             auto temp_label = new QLabel(content);
 
+            auto temp_label_font = temp_label->font();
+            temp_label_font.setPointSize(14);
+            temp_label->setFont(temp_label_font);
+
             temp_label->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
             temp_label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
             temp_label->adjustSize();

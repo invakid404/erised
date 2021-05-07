@@ -6,16 +6,19 @@
 #define ERISED_GLOBAL_H
 
 #include <QApplication>
+#include <QDir>
 #include <QFontDatabase>
 
 namespace erised::style {
 inline auto set_global_style(QApplication& app) {
-    QFontDatabase::addApplicationFont(":/fonts/Poppins-Regular.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/Poppins-SemiBold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/Poppins-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/Poppins-ExtraBold.ttf");
+    QDir fonts_dir(":/fonts");
 
-    QFont default_font("Poppins");
+    auto font_files = fonts_dir.entryInfoList(QDir::Files);
+    for (auto& font_file : font_files) {
+        QFontDatabase::addApplicationFont(font_file.absoluteFilePath());
+    }
+
+    QFont default_font("Poppins", 50);
     QApplication::setFont(default_font);
 }
 }  // namespace erised::style
