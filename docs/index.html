@@ -3,7 +3,7 @@
 <head>
   <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAsCAAAAADZMx6kAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEjSURBVDjL3ZVBbcQwEEUXyEcwCIwgCDYIjCAIzKAIQiAMjCAmkDAIAV/2tNLrIc22u8kmXqmV2s7BGtlPlu3/Z3xSeZz+Kgvr7DlrL7D1nPgStp+TVMISz1IdKWEvAHAt2vcWv4HtO1fMAu2BFj1ciY2pbuHtwA8RRlvEq/ZZG6fFFC2D7fvM+dvCuD7y2pMw9F6qwBewQG8KZDv0ulwz0Ulpcd6KHRf/SpLLeFmm22YDOXxON2RTlYnnzdpsIbc3bSO95O8N8qWO/QjkMF/IMkFyXdpmpaoDLl01K5fdfn+weAWGYB+n2O8lnilDbmTTo39WrCPLJ/CqYGjOTlL9rEeBpMAgNdPTd7gTcB59TCOQStijPvkT7EOBpu9i/+k/VBDvUOLeyIV7YagAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
   
-    <meta name="owl-fts-index" content="b3dsAAEAAAFqH4sIAAAAAAAC/0SS0XacMAxEWbbbZNu+9E/6kB8SRrAKtsSRZDb5+55apnmbM9ijuTIjsavMNTkJD9eXX0VmzDhfhmG4FJlrBg0NH1TkaHqCDJzwy4fctDmo97s4V5PFm041e9U4v6u8Ywr/iTlJCX9CfyJy0+9SlfGz6e83MEO3CFWyyH9h2iRDuB+O3BuTqrTC4+3VCmgbNPoD9RyzUgyZhLHjIPEaALJQZD7c9zZzTJnS1rz7bUKoTksNXDAjc+CAqQYTZfKoPeOBWfa+DLcDXQrFKr/dd1ijThbZ+qqPcBY6UaAXLcg1DmPf55M26tdXaeLnlXgRLfDvGWPnwgcy4flOxI4504q97us9geMq2vqOO6oJn++IqepJwi3z/LJjooVSj7SdtCNK/iw7wdzpHej8i0xy/V/rx5X4gI3mtz9vwVu9Kpn3TIaD1i+K35eV/FGnaqhJ2M/2fwMAAP//FBaG0LcCAAA=" />
+    <meta name="owl-fts-index" content="b3dsAAEAAAGmH4sIAAAAAAAC/1RSUXLbOgyk5JfXJP3qQTjTj1wIpiAZMQmoBCjbt+8IlNPJ6Acgdhc7C43EVmVqyUg43jAnKRhNol0wYiXFKd7oShHvKYfv4AtYJH2i/jRU+47IaBFW0ahxQYtqUA2ncHp5vZitOoYQhv07I/HSK2HcvFKZCY7pQjyEMQx2wYpepUzp6pUWqPal9P8LqKLpsD90Y/vsFIYw4t2QJ58UqlXqF4vpKrkvez8xbLTA7t/1iTe40vTx+8OZc7NWSY2Sw3+eiGep5cCHHW+YMy3I5ogkvCETckLv/3styM2lM87WC1nEySss2A0CdbmZDstZ5OoCRbaewa9hIbu0c1OsSdh8YwjDj/ciE2acenqQ4bm7wJ2K9HxTy9Zqf1+rfGLqfnFqKrMdydsNkf9xIR8Wppahev0prTI+3NHbnj6pAT/50Izm1llN4UyZ7OGd6YYmhbrKhBtmWQ/Pr2+SH2Ul6G0Cw0XqY/RrjWFYsarwYYY9+6NRya2fwkUNyHPwu+hK9VigKyaa9xvufxCmVp+2/gYAAP//7+U1xxADAAA=" />
     <script type="module">
       import init,{setup,search}from"./owl_wasm.js";const debounce=(n,t,u)=>{var e;return function(){var i=this,o=arguments,a=u&&!e;clearTimeout(e),e=setTimeout(function(){e=null,u||n.apply(i,o)},t),a&&n.apply(i,o)}};(()=>{async function run(){await init();const ftsData=document.querySelector('meta[name="owl-fts-index"]').getAttribute("content"),instance=setup(ftsData);console.log("Initialisation done");const searchButton=document.querySelector("div.search"),body=document.querySelector("body"),searchInput=document.querySelector("#search-input"),searchResultList=document.querySelector("#result-list"),searchContainer=document.querySelector("#search-container");let searchResults=[],searchActive=!1,activeIndex=-1;const showSearch=()=>{body.classList.add("showing-search"),searchInput.focus(),searchActive=!0},hideSearch=()=>{body.classList.remove("showing-search"),searchActive=!1,activeIndex=-1,searchResults=[],searchResultList.innerHTML="",searchInput.value="",searchInput.blur()},changeActiveIndex=newIndex=>{activeIndex=newIndex;let idx=0;for(let el of searchResultList.children)idx===activeIndex?el.classList.add("active"):el.classList.remove("active"),idx++},findCorrelations=(terms,result)=>{const containerText=document.querySelector(`#content-${result.anchor} .content`).textContent.toLowerCase().replace(/\n/g," ").replace(/\s+/g," ").trim(),allIndexes=terms.map(t=>{const idx=containerText.indexOf(t);return idx===-1?!1:{start:Math.max(0,idx-100),end:idx+100}}).filter(Boolean);if(allIndexes.length===0)return null;const filteredIndexes=[];for(let idx of allIndexes){if(filteredIndexes.length>=2)break;if(filteredIndexes.length===0){filteredIndexes.push(idx);continue}filteredIndexes.some(i=>i.start<=idx.start&&i.end>=idx.end)||filteredIndexes.push(idx)}let resultingText=filteredIndexes.map(i=>{let txt=containerText.substring(i.start,i.end);return i.start!==0&&(txt="&hellip;"+txt.substring(txt.indexOf(" "))),txt+"&hellip;"}).join(" ");return terms.forEach(t=>{resultingText=resultingText.replace(t,x=>`<span class="search-result-match">${x}</span>`)}),resultingText},doSearch=debounce(terms=>{if(terms=terms.trim().toLowerCase(),terms.length===0)return;const then=Date.now();searchResults=search(instance,terms);const now=Date.now();if(console.log(`[owl-fts] Search took ${now-then}ms`),searchResultList.innerHTML="",activeIndex=-1,searchResults.length==0){searchResultList.innerHTML=`<li class="empty">No results for ${terms}</li>`;return}let idx=0;const allTerms=terms.split(" ").map(i=>i.trim()).filter(Boolean),html=searchResults.map(r=>{const correlations=findCorrelations(allTerms,r);if(correlations===null)return null;const anchor=document.querySelector(`#anchor-${r.anchor}`);return`<li class="result" data-to="content-${r.anchor}" data-idx="${idx++}"><div class="search-title">${anchor.textContent}</div><div class="text-matches">${correlations}</div></li>`}).filter(Boolean).join("");searchResultList.innerHTML=html;for(let el of searchResultList.querySelectorAll(".result"))el.addEventListener("mouseenter",e=>{changeActiveIndex(parseInt(e.target.getAttribute("data-idx"),10))}),el.addEventListener("click",e=>{let obj=e.target;for(;obj&&!obj.classList.contains("result");)obj=obj.parentNode;document.querySelector(`#${obj.getAttribute("data-to")}`).scrollIntoView({behavior:"smooth",block:"start"}),document.location.hash=obj.getAttribute("data-to"),hideSearch()})},300);searchContainer.addEventListener("click",e=>{e.target===searchContainer&&hideSearch()}),window.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key=="f"||e.key=="/"&&!searchActive){e.preventDefault(),showSearch();return}if(e.key=="Escape"&&searchActive){e.preventDefault(),hideSearch();return}e.key=="ArrowUp"&&searchActive&&(e.preventDefault(),e.stopPropagation(),activeIndex>0&&changeActiveIndex(activeIndex-1)),e.key=="ArrowDown"&&searchActive&&(e.preventDefault(),e.stopPropagation(),activeIndex+1<searchResults.length&&changeActiveIndex(activeIndex+1))}),searchInput.addEventListener("keyup",e=>{if((e.key=="ArrowDown"||e.key=="ArrowUp")&&searchResults.length!=0){e.preventDefault(),e.stopPropagation();return}if(e.key=="Enter"){e.preventDefault(),e.stopPropagation(),activeIndex!=-1&&searchResultList.querySelector(".active").click();return}doSearch(searchInput.value)}),searchButton.onclick=e=>{e.preventDefault(),e.stopPropagation(),showSearch()}}document.addEventListener("DOMContentLoaded",()=>{run()})})();
 
@@ -68,13 +68,13 @@
   </div>
   <!-- Desktop menu -->
   <div class="desktop-menu-content toc">
-    <a href="#introduction" id="anchor-introduction">Introduction</a>
+    <details id="anchor-introduction"><summary>Introduction</summary><div class="sidebar-group-wrapper"><a href="#introduction-welcome-to-the-erised-wiki-excl" id="anchor-introduction-welcome-to-the-erised-wiki-excl">Welcome to the Erised wiki!</a><a href="#introduction-what-is-erised-quest" id="anchor-introduction-what-is-erised-quest">What is Erised?</a><a href="#introduction-let-apos-s-get-started" id="anchor-introduction-let-apos-s-get-started">Let's get started</a></div></details>
   </div>
   <!-- Mobile menu -->
   <div class="mobile-menu-content">
     <div class="content">
       <div class="toc">
-        <a href="#introduction" id="anchor-introduction">Introduction</a>
+        <details id="anchor-introduction"><summary>Introduction</summary><div class="sidebar-group-wrapper"><a href="#introduction-welcome-to-the-erised-wiki-excl" id="anchor-introduction-welcome-to-the-erised-wiki-excl">Welcome to the Erised wiki!</a><a href="#introduction-what-is-erised-quest" id="anchor-introduction-what-is-erised-quest">What is Erised?</a><a href="#introduction-let-apos-s-get-started" id="anchor-introduction-let-apos-s-get-started">Let's get started</a></div></details>
       </div>
     </div>
   </div>
@@ -84,36 +84,56 @@
   </script>
 </section>
 <section id="content">
-
-<section class="section" id="content-introduction">
+<section class="group" id="content-introduction">
+  <h1>Introduction</h1>
+  
+  
+<section class="section" id="content-introduction-welcome-to-the-erised-wiki-excl">
 
   <div class="section-wrapper">
     <div class="content">
       
-        <h1><span class="anchor-ref" id="introduction"></span>Introduction</h1>
+        <h1><span class="anchor-ref" id="introduction-welcome-to-the-erised-wiki-excl"></span>Welcome to the Erised wiki!</h1>
       
-      <h3>Welcome to the Erised wiki!</h3>
+      <p><img src="https://raw.githubusercontent.com/invakid404/erised/main/assets/logo.png" alt="erised" /></p>
 
 <p>On this page, you can find detailed information on how to set up, use, and extend the Erised smart mirror.</p>
 
-<h3>What is Erised?</h3>
+    </div>
+    
+  </div>
+</section>
 
-<p>Erised is a modular smart mirror solution inspired by Sci-Fi culture.</p>
+<section class="section" id="content-introduction-what-is-erised-quest">
+
+  <div class="section-wrapper">
+    <div class="content">
+      
+        <h1><span class="anchor-ref" id="introduction-what-is-erised-quest"></span>What is Erised?</h1>
+      
+      <p>Erised is a modular smart mirror solution inspired by Sci-Fi culture.</p>
 
 <p>It is an intelligent personal assistant, modeled for maximal balance between convenience, usability, security, and has a beautiful, futuristic look.</p>
 
 <p>Erised is being developed by Tsvetomir Bonev and Nikola Maximov as a project for the <a href="https://edusoft.fmi.uni-sofia.bg">National Olympiad in IT</a> in the IoT category.</p>
 
-<h3>Let&rsquo;s get started</h3>
+    </div>
+    
+  </div>
+</section>
 
-<p>On the left, there is a navigation menu, where you can move to a specific category. Click on one to begin your journey!</p>
+<section class="section" id="content-introduction-let-apos-s-get-started">
+
+  <div class="section-wrapper">
+    <div class="content">
+      
+        <h1><span class="anchor-ref" id="introduction-let-apos-s-get-started"></span>Let's get started</h1>
+      
+      <p>On the left, there is a navigation menu, where you can move to a specific category. Click on one to begin your journey!</p>
 
     </div>
     
-      <div class="sidenote">
-        <p><img src="https://raw.githubusercontent.com/invakid404/erised/main/assets/logo.png" alt="erised" /></p>
-
-      </div>
-    
   </div>
+</section>
+
 </section>
