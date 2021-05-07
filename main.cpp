@@ -1,7 +1,7 @@
 #include <QApplication>
 
 #include "server/server.h"
-#include "widget/loader.h"
+#include "widget/manager.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
@@ -15,14 +15,7 @@ int main(int argc, char *argv[]) {
     main_window.showFullScreen();
 
     // Load all widgets in current workdir
-    auto widgets = erised::widget::loader::load_all_in_directory(QDir("./test-widget"));
-    for (auto &widget : widgets) {
-        widget->setParent(&main_window);
-        widget->setObjectName(QString("erised_") + widget->metaObject()->className());
-        widget->move(150, 200);
-
-        widget->show();
-    }
+    auto widgets = erised::widget::manager_t::the().load_all_in_directory(QDir("./test-widget"));
 
     return QApplication::exec();
 }

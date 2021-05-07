@@ -67,7 +67,7 @@ void erised::server::server_t::process_text_message(QString const& message) {
         // Broadcast the packet to all clients
         this->broadcast_text_message(message, client);
 
-        handler_t::get_instance().process_packet(message);
+        handler_t::the().process_packet(message);
     }
 }
 
