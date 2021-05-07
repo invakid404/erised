@@ -13,8 +13,7 @@
 #include <QRegularExpression>
 
 #include "../util/window.h"
-
-// TODO: Rewrite to use `erised::widget::manager_t`
+#include "../widget/manager.h"
 
 erised::server::handler_t::handler_t() {
     this->handlers[packet_t::UPDATE] = [&](auto const& payload) {
@@ -93,7 +92,8 @@ QString erised::server::handler_t::build_global_update_packet() {
     auto update_payload = QJsonArray();
 
     // Find all Erised widgets by looking for children of type `QWidget` with the "erised_" name prefix
-    for (auto& widget : main_window->findChildren<QWidget*>(QRegularExpression("erised_"))) {
+    auto& loaded_widgets = erised::widget::manager_t::the().get_loaded_widgets();
+    for (auto widget : loaded_widgets) {
         auto widget_info = QJsonObject();
         widget_info["name"] = widget->objectName();
 

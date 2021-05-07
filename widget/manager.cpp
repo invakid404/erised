@@ -14,6 +14,7 @@ QWidget *erised::widget::manager_t::load_widget_from_file(QString const &file_na
         if (interface) {
             auto widget_instance = interface->instantiate_widget();
 
+            widget_instance->setObjectName(loader.metaData().value("IID").toString());
             widget_instance->setParent(erised::util::get_main_window());
             widget_instance->show();
 
