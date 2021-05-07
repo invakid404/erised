@@ -12,13 +12,12 @@ QWidget *erised::widget::manager_t::load_widget_from_file(QString const &file_na
     if (instance) {
         auto interface = qobject_cast<widget_t *>(instance);
         if (interface) {
-            auto iid = loader.metaData().value("IID").toString();
-            this->loaded_widgets[iid] = interface;
-
             auto widget_instance = interface->instantiate_widget();
 
             widget_instance->setParent(erised::util::get_main_window());
             widget_instance->show();
+
+            this->loaded_widgets[interface] = widget_instance;
 
             return widget_instance;
         }

@@ -8,15 +8,17 @@
 #include <QPluginLoader>
 #include <QtWidgets>
 
-#include "interface.h"
 #include "../util/window.h"
+#include "interface.h"
 
 namespace erised::widget {
 class manager_t {
 public:
-    QWidget* load_widget_from_file(QString const &);
+    QWidget *load_widget_from_file(QString const &);
 
-    QList<QWidget*> load_all_in_directory(QDir const &);
+    QList<QWidget *> load_all_in_directory(QDir const &);
+
+    auto const &get_loaded_widgets() { return this->loaded_widgets; }
 
     static manager_t &the() {
         static manager_t instance;
@@ -31,7 +33,7 @@ public:
 private:
     manager_t() = default;
 
-    QMap<QString, widget_t *> loaded_widgets;
+    QMap<widget_t *, QWidget *> loaded_widgets;
 };
 }  // namespace erised::widget
 
