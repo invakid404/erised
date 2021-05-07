@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     main_window.showMaximized();
 
     // Load all widgets in current workdir
-    auto widgets = erised::widget::manager_t::the().load_all_in_directory(QDir("./clock-widget"));
+    auto widgets = erised::widget::manager_t::the().load_all_in_directory(QDir("./weather-widget"));
 
     return QApplication::exec();
 }
