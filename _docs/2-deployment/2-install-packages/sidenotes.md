@@ -5,7 +5,7 @@ sudo apt update
 sudo apt upgrade
 
 # Install docker
-curl -fsSL https://get.docker.com | sudo sh - # Install docker
+curl -fsSL https://get.docker.com | sudo sh -
 
 # Install docker-compose
 sudo apt install -y python3 python3-pip
