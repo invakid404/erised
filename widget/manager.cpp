@@ -27,6 +27,7 @@ QWidget *erised::widget::manager_t::load_widget_from_file(QString const &file_na
 
     return nullptr;
 }
+
 QList<QWidget *> manager_t::load_all_in_directory(const QDir &directory) {
     auto res = QList<QWidget *>();
 

@@ -1,0 +1,14 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file>icons/clear.png</file>
+        <file>icons/hail.png</file>
+        <file>icons/heavy_cloud.png</file>
+        <file>icons/heavy_rain.png</file>
+        <file>icons/light_cloud.png</file>
+        <file>icons/light_rain.png</file>
+        <file>icons/showers.png</file>
+        <file>icons/snow.png</file>
+        <file>icons/thunderstorm.png</file>
+    </qresource>
+</RCC>

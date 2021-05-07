@@ -22,7 +22,6 @@ public:
 
     static manager_t &the() {
         static manager_t instance;
-
         return instance;
     }
 
