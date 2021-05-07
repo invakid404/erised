@@ -11,7 +11,7 @@
 #include "http.h"
 
 namespace erised::util {
-class positioning_t : public QObject {
+class positioning_t {
     Q_GADGET
 public:
     auto get_position_data() { return this->curr_position; }
